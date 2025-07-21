@@ -11,7 +11,7 @@ from pathlib import Path
 
 FOLLOWING_FILE = Path("temp") / "following_list.json"
 FOLLOWERS_FILE = Path("temp") / "followers_list.json"
-DB_FILE = "fdap.db"
+DB_FILE = "data/fdap.db"
 cookie_str = None
 auth_str = None
 csrf_str = None
@@ -30,6 +30,7 @@ async def main():
             except Exception as e:
                 print("Unknown error")
     os.makedirs('./temp', exist_ok=True)
+    os.makedirs('./data', exist_ok=True)
     print(pyfiglet.figlet_format("FDAP"), end="", flush=True)
     print("Twitter Internal API Version")
     if not Path(DB_FILE).exists():
@@ -45,7 +46,7 @@ async def main():
     await asyncio.to_thread(runpy.run_path, "clean.py", run_name="__main__")
     os.remove(FOLLOWING_FILE)
     os.remove(FOLLOWERS_FILE)
-    await asyncio.to_thread(runpy.run_path, "split.py", run_name="__main__")
+    await asyncio.to_thread(runpy.run_path, "sort.py", run_name="__main__")
 
 async def init_db():
     global cookie_str, auth_str, csrf_str
